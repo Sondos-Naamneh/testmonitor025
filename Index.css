@@ -1,0 +1,111 @@
+/* ========== RESPONSIVE STYLING ========== */
+
+/* Tablet and below (≤ 768px) */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 0 2rem;
+    height: auto;
+  }
+
+  nav .logo {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  nav .nav-items {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .hero-section .content {
+    align-items: center;
+    padding-left: 0;
+  }
+
+  .hero-section h4,
+  .hero-section .content h1,
+  .hero-section p {
+    text-align: center;
+  }
+
+  .hero-image {
+    margin-top: 2rem;
+  }
+
+  .hero-image img {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .login-form-container {
+    width: 90%;
+  }
+
+  .btn {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-group input {
+    font-size: 1rem;
+  }
+
+  footer p {
+    font-size: 0.95rem;
+    padding: 1rem;
+  }
+}
+
+/* Mobile devices (≤ 480px) */
+@media (max-width: 480px) {
+  nav {
+    padding: 0 1rem;
+  }
+
+  nav .logo {
+    font-size: 1.2rem;
+  }
+
+  nav .nav-items .nav-item {
+    padding: 0 0.5rem;
+  }
+
+  .hero-section h4 {
+    font-size: 1.2rem;
+  }
+
+  .hero-section .content h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-section p {
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .login-form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  footer p {
+    font-size: 0.85rem;
+  }
+}

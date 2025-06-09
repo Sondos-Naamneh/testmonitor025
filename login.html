@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - TestMonitor</title>
+        <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.css" 
+        integrity="sha512-yzjXBpg50JPauUI6Y7KGhRILx8jusBy1GyW6eHW2VXWv063AC7onqnkR8Jacy69usMOuAcztBY3zRF5n+EL4Qg==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-fingerprint" style="color: white ;">  </i>  
+                <h4>TestMonitor</h4>          
+            </div>
+            
+            <ul class="nav-items">
+                  <li class="nav-item"><a href="home.html" class="nav-link">Home</a></li>
+                  <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+                  <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+                  <li class="nav-item"><a href="login.html" class="nav-link active" id="login-link">Login</a></li>
+                  <li class="nav-item"><a href="signUp.html" class="nav-link">Sign Up</a></li>
+                  <li class="nav-item"><a href="help.html" class="nav-link">Help</a></li>
+                  <li class="nav-item" id="logout-item" style="display:none;"><a href="#" class="nav-link" id="logout-link">Logout</a></li>
+            </ul>
+        </nav>
+    
+        <main class="page-container login-page-container">
+            <!-- Login Form Section -->
+            <section class="login-form-section">
+                <div class="login-form-container">
+                    <h2>Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email">Email Address:</label>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="btn">Login</button>
+                    </form>
+                    <div class="signUp-section">
+                        <p>Don't have an account? <a href="signUp.html" class="signUp-link">Sign Up</a></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    
+        <!-- Add JavaScript for validation -->
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const response = await fetch('http://127.0.0.1:5000/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        // Store user data in localStorage
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('username', data.user.username);
+                        localStorage.setItem('email', data.user.email);
+                        localStorage.setItem('userType', data.user.type);
+                        localStorage.setItem('token', data.access_token);
+
+
+                        // Redirect to home page
+                        window.location.href = 'home.html';
+                    } else {
+                        alert('Login failed. Please check your credentials.');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('An error occurred during login. Please try again.');
+                }
+            });
+        </script>
+        <script src="js/auth.js"></script> 
+    </body>
+    <footer>
+    <p>&copy; 2025 TestMonitor. All rights reserved. Developed by Eng. Sondos Naamneh.</p>
+    </footer>
+</html>

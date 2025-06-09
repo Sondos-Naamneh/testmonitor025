@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - TestMonitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.css" 
+        integrity="sha512-yzjXBpg50JPauUI6Y7KGhRILx8jusBy1GyW6eHW2VXWv063AC7onqnkR8Jacy69usMOuAcztBY3zRF5n+EL4Qg==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-fingerprint"></i>  
+            <h4>TestMonitor</h4>          
+        </div>
+        <ul class="nav-items">
+            <li class="nav-item"><a href="home.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+            <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+            <li class="nav-item"><a href="admin.html" class="nav-link active">Admin</a></li>
+            <li class="nav-item"><a href="help.html" class="nav-link">Help</a></li>
+            <li class="nav-item" id="logout-item"><a href="#" class="nav-link" id="logout-link">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="page-container admin-page-container">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <div class="view-controls">
+                <button id="view-incidents-btn" class="admin-btn active">View Incidents</button>
+                <button id="view-submissions-btn" class="admin-btn">View Submissions</button>
+            </div>
+            <div id="filters-container" class="filter-controls">
+                <div class="filter-group">
+                    <label for="username-filter">Username:</label>
+                    <input type="text" id="username-filter" placeholder="Filter by username">
+                </div>
+                <div class="filter-group">
+                    <label for="quiz-filter">Quiz:</label>
+                    <input type="text" id="quiz-filter" placeholder="Filter by quiz name">
+                </div>
+                <div class="filter-group">
+                    <label for="date-range">Date Range:</label>
+                    <input type="date" id="start-date">
+                    <input type="date" id="end-date">
+                </div>
+                <button id="apply-filters" class="admin-btn">Apply Filters</button>
+                <button id="reset-filters" class="admin-btn">Reset</button>
+            </div>
+        </div>
+
+        <div id="incidents-container" class="incidents-container">
+            <table id="incidents-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Quiz Name</th>
+                        <th>Incident Type</th>
+                        <th>Timestamp</th>
+                        <th>Details</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="incidents-body">
+                    <!-- Incidents will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="submissions-container" class="submissions-container" style="display: none;">
+            <h2>Quiz Submissions</h2>
+            <table id="submissions-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Quiz Name</th>
+                        <th>Score (%)</th>
+                        <th>Date Submitted</th>
+                    </tr>
+                </thead>
+                <tbody id="submissions-body">
+                    <!-- Submissions will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 TestMonitor. All rights reserved. Developed by Eng. Sondos Naamneh.</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const token = localStorage.getItem('token');
+
+        // ✅ تحقق من وجود التوكن
+        if (!token) {
+            alert('Access denied. Please log in.');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // ✅ تحقق من نوع المستخدم فعليًا (من السيرفر)
+        try {
+            const verifyRes = await fetch('http://127.0.0.1:5000/verifyToken', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            if (!verifyRes.ok) throw new Error("Token invalid");
+            const verifyData = await verifyRes.json();
+
+            if (verifyData.type !== 'admin') {
+                alert('Access denied. Admin privileges required.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // ✅ حمّل البيانات إذا المستخدم Admin
+            await loadIncidents();
+
+            document.getElementById('apply-filters').addEventListener('click', loadIncidents);
+            document.getElementById('reset-filters').addEventListener('click', resetFilters);
+            document.getElementById('view-incidents-btn').addEventListener('click', () => toggleView(true));
+            document.getElementById('view-submissions-btn').addEventListener('click', () => toggleView(false));
+
+        } catch (error) {
+            console.error("Access error:", error);
+            alert("Session expired or unauthorized.");
+            window.location.href = 'login.html';
+        }
+    });
+
+    function toggleView(showIncidents) {
+        const incidentsContainer = document.getElementById('incidents-container');
+        const submissionsContainer = document.getElementById('submissions-container');
+        const filtersContainer = document.getElementById('filters-container');
+        const viewIncidentsBtn = document.getElementById('view-incidents-btn');
+        const viewSubmissionsBtn = document.getElementById('view-submissions-btn');
+
+        if (showIncidents) {
+            incidentsContainer.style.display = 'block';
+            filtersContainer.style.display = 'grid';
+            submissionsContainer.style.display = 'none';
+            viewIncidentsBtn.classList.add('active');
+            viewSubmissionsBtn.classList.remove('active');
+        } else {
+            incidentsContainer.style.display = 'none';
+            filtersContainer.style.display = 'none';
+            submissionsContainer.style.display = 'block';
+            viewIncidentsBtn.classList.remove('active');
+            viewSubmissionsBtn.classList.add('active');
+            loadSubmissions();
+        }
+    }
+
+    async function loadIncidents() {
+        const username = document.getElementById('username-filter').value;
+        const quizName = document.getElementById('quiz-filter').value;
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+
+        const params = new URLSearchParams();
+        if (username) params.append('username', username);
+        if (quizName) params.append('quiz_name', quizName);
+        if (startDate) params.append('start_date', startDate);
+        if (endDate) params.append('end_date', endDate);
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/getCheatingIncidents?${params}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            });
+
+            if (!response.ok) throw new Error('Failed to fetch incidents');
+            const incidents = await response.json();
+            displayIncidents(incidents);
+        } catch (error) {
+            console.error('Error loading incidents:', error);
+            alert('Failed to load incidents.');
+        }
+    }
+
+    async function loadSubmissions() {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/getSubmissions', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            });
+
+            if (!response.ok) throw new Error('Failed to fetch submissions');
+            const submissions = await response.json();
+            displaySubmissions(submissions);
+        } catch (error) {
+            console.error('Error loading submissions:', error);
+            alert('Failed to load submissions.');
+        }
+    }
+
+    function displayIncidents(incidents) {
+        const tbody = document.getElementById('incidents-body');
+        tbody.innerHTML = '';
+
+        if (incidents.length === 0) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 6;
+            cell.textContent = 'No incidents found.';
+            row.appendChild(cell);
+            tbody.appendChild(row);
+            return;
+        }
+
+        incidents.forEach(incident => {
+            const row = document.createElement('tr');
+            row.dataset.incidentId = incident._id;
+            row.innerHTML = `
+                <td>${incident.username}</td>
+                <td>${incident.quiz_name}</td>
+                <td>${incident.incident_type}</td>
+                <td>${new Date(incident.timestamp).toLocaleString()}</td>
+                <td>${incident.details || ''}</td>
+                <td><button class="delete-btn" onclick="deleteIncident('${incident._id}')">❌</button></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function displaySubmissions(submissions) {
+        const tbody = document.getElementById('submissions-body');
+        tbody.innerHTML = '';
+
+        if (submissions.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4">No submissions found.</td></tr>';
+            return;
+        }
+
+        submissions.forEach(submission => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${submission.username}</td>
+                <td>${submission.quiz_name}</td>
+                <td>${submission.score.toFixed(1)}</td>
+                <td>${new Date(submission.submitted_at).toLocaleString()}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    async function deleteIncident(incidentId) {
+        if (!confirm('Are you sure you want to delete this incident?')) return;
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/deleteIncident/${incidentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to delete incident');
+            }
+
+            const row = document.querySelector(`tr[data-incident-id='${incidentId}']`);
+            if (row) row.remove();
+
+            alert('Incident deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting incident:', error);
+            alert(`Error: ${error.message}`);
+        }
+    }
+
+    function resetFilters() {
+        document.getElementById('username-filter').value = '';
+        document.getElementById('quiz-filter').value = '';
+        document.getElementById('start-date').value = '';
+        document.getElementById('end-date').value = '';
+        loadIncidents();
+    }
+    </script>
+    <script src="js/auth.js"></script>
+</body>
+</html> 

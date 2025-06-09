@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestMonitor</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.css" 
+    integrity="sha512-yzjXBpg50JPauUI6Y7KGhRILx8jusBy1GyW6eHW2VXWv063AC7onqnkR8Jacy69usMOuAcztBY3zRF5n+EL4Qg==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-fingerprint"></i>  
+            <h4>TestMonitor</h4>          
+        </div>
+        <ul class="nav-items">
+            <li class="nav-item"><a href="home.html" class="nav-link active">Home</a></li>
+            <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+            <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+            <li class="nav-item" id="admin-nav-item" style="display: none;"><a href="admin.html" class="nav-link">Admin</a></li>
+            <li class="nav-item"><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+            <li class="nav-item"><a href="signUp.html" class="nav-link">Sign Up</a></li>
+            <li class="nav-item"><a href="help.html" class="nav-link">Help</a></li>
+            <li class="nav-item" id="logout-item" style="display:none;"><a href="#" class="nav-link" id="logout-link">Logout</a></li>
+        </ul>
+    </nav>
+    <section class="hero">
+        <div class="hero-section">
+            <div class="content">
+                <h1>Secure Online Quizzes with Advanced Cheat Detection</h1>
+                <p>Ensure the integrity of your exams with our cutting-edge keyboard and mouse tracking algorithms.</p>
+                <button class="btn" onclick="handleGetStarted()">Get Started</button>
+            </div>
+        </div>
+    </section>
+    <section class="how-it-works">
+        <h2>How Our Cheat Detection Works</h2>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-keyboard"></i>
+                <h3>Keyboard Tracking</h3>
+                <p>Monitors keystrokes to detect suspicious patterns.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mouse"></i>
+                <h3>Mouse Tracking</h3>
+                <p>Analyzes mouse movements for unusual behavior.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure Environment</h3>
+                <p>Ensures a controlled testing environment.</p>
+            </div>
+        </div>
+    </section>
+    <section class="benefits">
+        <h2>Why Choose TestMonitor?</h2>
+        <ul>
+            <li>Advanced security features to prevent cheating.</li>
+            <li>Easy-to-use interface for both instructors and students.</li>
+            <li>Real-time monitoring and alerts.</li>
+            <li>Comprehensive reporting and analytics.</li>
+        </ul>
+    </section>
+    <section class="testimonials">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial">
+            <p>"TestMonitor has revolutionized the way we conduct online exams. The cheat detection is top-notch!"</p>
+            <cite>- Professor Jane Doe, University X</cite>
+        </div>
+        <div class="testimonial">
+            <p>"As a student, I feel more confident knowing that the exams are fair and secure."</p>
+            <cite>- John Smith, Student</cite>
+        </div>
+    </section>
+    <footer>
+        <p>© 2025 TestMonitor. All rights reserved. Developed by Eng. Sondos Naamneh.</p>
+    </footer>
+    <script src="js/auth.js"></script> 
+    <script>
+        function handleGetStarted() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                window.location.href = 'courses.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

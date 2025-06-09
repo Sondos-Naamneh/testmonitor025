@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - TestMonitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.css" 
+    integrity="sha512-yzjXBpg50JPauUI6Y7KGhRILx8jusBy1GyW6eHW2VXWv063AC7onqnkR8Jacy69usMOuAcztBY3zRF5n+EL4Qg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/help.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+        <i class="fas fa-fingerprint"></i>  
+        <h4>TestMonitor</h4>          
+    </div>
+    <ul class="nav-items">
+        <li class="nav-item"><a href="home.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+        <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li class="nav-item" id="admin-nav-item" style="display: none;"><a href="admin.html" class="nav-link">Admin</a></li>
+        <li class="nav-item"><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+        <li class="nav-item"><a href="signUp.html" class="nav-link">Sign Up</a></li>
+        <li class="nav-item"><a href="help.html" class="nav-link active">Help</a></li>
+        <li class="nav-item" id="logout-item" style="display:none;"><a href="#" class="nav-link" id="logout-link">Logout</a></li>
+    </ul>
+  </nav>
+
+    <!-- Main Content -->
+    <main class="page-container help-page-container">
+        <section class="hero">
+            <h1>Help & Support</h1>
+            <p>Welcome to the Help page! Here you will find answers to frequently asked questions and guidance on how to use the TestMonitor platform effectively.</p>
+        </section>
+
+        <div class="help-content">
+            <section class="help-section">
+                <h2>How to Get Started</h2>
+                <ol>
+                    <li><strong>Sign Up:</strong> Create an account by clicking on the "Sign Up" button and entering your details.</li>
+                    <li><strong>Login:</strong> After signing up, you can login with your credentials.</li>
+                    <li><strong>Take the Exam:</strong> Once logged in, you can select your desired exam and start it.</li>
+                    <li><strong>KeyPress Monitoring:</strong> During the exam, your key presses will be monitored for security and integrity.</li>
+                    <li><strong>Review Results:</strong> After completing the exam, you can view your results in your dashboard.</li>
+                </ol>
+            </section>
+            
+            <section class="help-section">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>How does keypress tracking work?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>The system tracks key presses during the exam to monitor for suspicious patterns and ensure test integrity. This helps maintain a fair environment for all students.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What happens if I face technical issues during the exam?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>If you encounter any technical difficulties, please remain calm. Note down the issue and contact our support team immediately through the contact information provided on this page. We will assist you as soon as possible.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Is my data safe?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, we prioritize security. All your data, including exam results and personal information, is encrypted and stored securely using industry-standard protocols.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="help-section">
+                <h2>Need Help? Contact Support</h2>
+                <ul class="support-contact">
+                    <li><i class="fas fa-envelope"></i> Email: <a href="mailto:testmonitor025@gmail.com">testmonitor025@gmail.com</a></li>
+                    <li><i class="fas fa-phone"></i> Phone: +962770657816 </li>
+                </ul>
+            </section>
+            
+            <section class="help-section">
+                <h2>Security Guidelines</h2>
+                <ul>
+                    <li>Use a strong password and never share it with anyone.</li>
+                    <li>Ensure your internet connection is secure during the exam.</li>
+                    <li>Check that your device is free from malware or keyloggers.</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 TestMonitor. All rights reserved. Developed by Eng. Sondos Naamneh.</p>
+    </footer>
+    <script src="js/auth.js"></script> 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+    
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const icon = question.querySelector('i');
+    
+                    question.classList.toggle('active');
+                    
+                    if (answer.style.maxHeight) {
+                        answer.style.maxHeight = null;
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

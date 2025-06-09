@@ -1,0 +1,103 @@
+/* Styles specific to the Courses page */
+
+.courses-page-container {
+  flex-grow: 1; /* Allows this container to grow and push the footer down */
+  padding: 20px; /* General padding for the content area */
+  width: 100%;
+  max-width: 1200px; /* Max width for the content */
+  margin: 0 auto; /* Center the content */
+  box-sizing: border-box;
+}
+
+/* Remove general body, nav, and footer styling, as it's handled by home.css */
+/* body { ... } */
+/* nav { ... } */
+/* nav .logo { ... } */
+/* nav ul { ... } */
+/* footer { ... } */
+
+.courses-page-container header {
+  text-align: center;
+  padding: 20px; /* Reduced padding as body has padding-top */
+  /* background-color: #fff; */ /* Can be removed if page bg is sufficient */
+  /* margin-top: 60px; */ /* Remove, body padding-top from home.css handles this */
+  border-bottom: 1px solid #e0e0e0; /* Softer border color */
+  margin-bottom: 30px; /* Space below header */
+}
+
+.courses-page-container header h1 {
+  font-size: 2.5em; /* Adjusted font size */
+  margin: 0;
+  color: #343a40; /* Consistent heading color */
+}
+
+.courses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px; /* Slightly increased gap */
+  padding: 0; /* Padding is now on courses-page-container */
+  /* max-width: 1200px; */ /* Max-width is on courses-page-container */
+  /* margin: 0 auto; */ /* Centering is on courses-page-container */
+}
+
+.course {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef; /* Lighter border */
+  border-radius: 10px;
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Subtle default shadow */
+}
+
+.course:hover {
+  transform: translateY(-7px); /* Slightly less lift */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Enhanced shadow on hover */
+}
+
+.course.clickable {
+  cursor: pointer;
+}
+
+.course.clickable:hover {
+  background-color: #f8f9fa; /* Light hover for clickable courses */
+}
+
+.course h2 {
+  font-size: 1.5em; /* Adjusted size */
+  margin: 0 0 12px;
+  color: #007bff; /* Primary color for course titles */
+}
+
+.course p {
+  font-size: 1em;
+  color: #6c757d; /* Softer text color */
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments for courses page */
+@media (max-width: 768px) {
+  .courses-page-container header {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  .courses-page-container header h1 {
+    font-size: 2em;
+  }
+  .courses {
+    gap: 20px;
+  }
+  .course {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .courses-page-container header h1 {
+    font-size: 1.8em;
+  }
+   .course h2 {
+    font-size: 1.3em;
+  }
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - TestMonitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.css" 
+    integrity="sha512-yzjXBpg50JPauUI6Y7KGhRILx8jusBy1GyW6eHW2VXWv063AC7onqnkR8Jacy69usMOuAcztBY3zRF5n+EL4Qg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/signUp.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-fingerprint"></i>  
+            <h4>TestMonitor</h4>          
+        </div>
+        <ul class="nav-items">
+            <li class="nav-item"><a href="home.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+            <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+            <li class="nav-item"><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+            <li class="nav-item"><a href="signUp.html" class="nav-link active">Sign Up</a></li>
+            <li class="nav-item"><a href="help.html" class="nav-link">Help</a></li>
+            <li class="nav-item" id="logout-item" style="display:none;"><a href="#" class="nav-link" id="logout-link">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="page-container signup-page-container">
+        <!-- Sign Up Form Section -->
+        <section class="signUp-form-section">
+            <div class="signUp-form-container">
+                <h2>Sign Up</h2>
+                <form id="signUpForm" method="POST">
+                    <div class="form-group">
+                        <label for="full_name">Full Name:</label>
+                        <input type="text" id="full_name" name="full_name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="btn">Sign Up</button>
+                </form>
+                <div class="login-section">
+                    <p>Already have an account? <a href="login.html" class="login-link">Login</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add JavaScript for validation -->
+    <script>
+        document.getElementById('signUpForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const full_name = document.getElementById('full_name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validate form
+            if (!full_name || !email || !password || !confirmPassword) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // Validate password strength
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/signUp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `full_name=${encodeURIComponent(full_name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                });
+
+                const data = await response.text();
+
+                if (data === "success") {
+                    alert("Sign up successful! Please login.");
+                    window.location.href = "login.html";
+                } else if (data === "email_exists") {
+                    alert("This email is already registered. Please use a different email or login.");
+                } else if (data === "missing_fields") {
+                    alert("Please fill in all required fields.");
+                } else {
+                    alert("Sign up failed. Please try again later.");
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert("An error occurred during sign up. Please try again later.");
+            }
+        });
+    </script>
+    <script src="js/auth.js"></script> 
+</body>
+<footer>
+    <p>© 2025 TestMonitor. All rights reserved. Developed by Eng. Sondos Naamneh.</p>
+</footer>
+</html>

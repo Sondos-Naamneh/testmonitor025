@@ -1,0 +1,151 @@
+/* Styles specific to the Login page */
+
+.login-page-container .login-form-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.login-form-container {
+  background: #ffffff;
+  padding: 35px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.login-form-container h2 {
+  margin-bottom: 25px;
+  color: #343a40;
+  font-size: 2.2em;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #495057;
+  font-weight: 500;
+  font-size: 0.95em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.login-form-container .btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.login-form-container .btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.login-form-container .btn:active {
+  transform: translateY(0);
+}
+
+.signUp-section {
+  margin-top: 25px;
+}
+
+.signUp-section p {
+  margin: 0;
+  color: #495057;
+  font-size: 0.95em;
+}
+
+.signUp-section a.signUp-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signUp-section a.signUp-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* ===================== Responsive ===================== */
+
+/* Tablets and below */
+@media (max-width: 768px) {
+  .login-page-container .login-form-section {
+    padding: 30px 10px;
+  }
+
+  .login-form-container {
+    padding: 30px 25px;
+    margin: 0 10px;
+    max-width: 100%;
+  }
+
+  .login-form-container h2 {
+    font-size: 1.9em;
+  }
+
+  .login-form-container .btn {
+    font-size: 1em;
+    padding: 10px;
+  }
+}
+
+/* Small screens: phones */
+@media (max-width: 480px) {
+  .login-form-container {
+    padding: 25px 20px;
+  }
+
+  .login-form-container h2 {
+    font-size: 1.6em;
+  }
+
+  .form-group label {
+    font-size: 0.9em;
+  }
+
+  .form-group input {
+    padding: 10px 12px;
+    font-size: 0.95em;
+  }
+
+  .login-form-container .btn {
+    font-size: 0.95em;
+    padding: 10px;
+  }
+
+  .signUp-section p {
+    font-size: 0.9em;
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses - TestMonitor</title>
+  <link rel="stylesheet" href="css/courses.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.css" 
+    integrity="sha512-yzjXBpg50JPauUI6Y7KGhRILx8jusBy1GyW6eHW2VXWv063AC7onqnkR8Jacy69usMOuAcztBY3zRF5n+EL4Qg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+        <i class="fas fa-fingerprint"></i>  
+        <h4>TestMonitor</h4>          
+    </div>
+    <ul class="nav-items">
+        <li class="nav-item"><a href="home.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="courses.html" class="nav-link active">Courses</a></li>
+        <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+        <li class="nav-item" id="admin-nav-item" style="display: none;"><a href="admin.html" class="nav-link">Admin</a></li>
+        <li class="nav-item"><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+        <li class="nav-item"><a href="signUp.html" class="nav-link">Sign Up</a></li>
+        <li class="nav-item"><a href="help.html" class="nav-link">Help</a></li>
+        <li class="nav-item" id="logout-item" style="display:none;"><a href="#" class="nav-link" id="logout-link">Logout</a></li>
+    </ul>
+  </nav>
+  
+  <main class="page-container courses-page-container"> 
+    <header>
+      <h1> Balqa Applied University </h1>
+    </header>
+
+    <section class="courses">
+       <div class="course clickable" onclick="goToQuiz('ELE5364 - Networks protocols')">
+        <h2>ELE5364 - Networks protocols</h2>
+        <p> Dr. Ashraf Abu-Ain </p>
+      </div>
+      <div class="course clickable" onclick="goToQuiz('ELE6576 - Network Programming')">
+        <h2>ELE6576 - Network Programming</h2>
+        <p> Eng. Buthayna Al-Sharaa</p>
+      </div>
+      <div class="course clickable" onclick="goToQuiz('ELE0442 - Encryption')">
+        <h2>ELE0442 - Control System</h2>
+        <p> Dr. Ma'moun Al-Smadi </p>
+      </div>
+      <div class="course clickable" onclick="goToQuiz('ELE53687 - Cyber Security')">
+        <h2>ELE53687 - Cyber Security</h2>
+        <p> Eng. Arwa'a Naji </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  function goToQuiz(courseName) {
+    // Encode the course name to handle special characters in the URL
+    const encodedCourseName = encodeURIComponent(courseName);
+    window.location.href = `quiz.html?course=${encodedCourseName}`;
+  }
+  </script>
+
+  <footer>
+    <p>© 2025 TestMonitor. All rights reserved. Developed by Eng. Sondos Naamneh.</p>
+  </footer>
+  <script src="js/auth.js"></script> 
+</body>
+</html>

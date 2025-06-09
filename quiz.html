@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - TestMonitor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.css" 
+    integrity="sha512-yzjXBpg50JPauUI6Y7KGhRILx8jusBy1GyW6eHW2VXWv063AC7onqnkR8Jacy69usMOuAcztBY3zRF5n+EL4Qg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/quiz.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+        <i class="fas fa-fingerprint"></i>  
+        <h4>TestMonitor</h4>          
+    </div>
+    <ul class="nav-items">
+        <li class="nav-item"><a href="home.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="courses.html" class="nav-link">Courses</a></li>
+        <li class="nav-item"><a href="quiz.html" class="nav-link active">Quiz</a></li>
+        <li class="nav-item"><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+        <li class="nav-item"><a href="signUp.html" class="nav-link">Sign Up</a></li>
+        <li class="nav-item"><a href="help.html" class="nav-link">Help</a></li>
+        <li class="nav-item" id="logout-item" style="display:none;"><a href="#" class="nav-link" id="logout-link">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="page-container quiz-page-container">
+    <div id="quiz-container">
+      <div id="quiz-header">
+        <h1 id="quiz-title">Online Quiz</h1>
+        <div id="timer">Time Remaining: <span id="time">10:00</span></div>
+      </div>
+      <div id="quiz-content">
+        <!-- Quiz content will be dynamically loaded here -->
+      </div>
+      <div id="quiz-controls">
+        <button id="prev-btn" class="quiz-btn">Previous</button>
+        <button id="next-btn" class="quiz-btn">Next</button>
+        <button id="submit-btn" class="quiz-btn">Submit Quiz</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TestMonitor. All rights reserved. Developed by Eng. Sondos Naamneh.</p>
+  </footer>
+
+  <script type="module">
+    import antiCheat from './js/anti-cheat.js';
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Must be served from a web server.
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      if (!isLoggedIn) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const courseName = params.get('course');
+
+      if (!courseName) {
+        document.getElementById('quiz-content').innerHTML = '<p>No course selected. Please return to the <a href="courses.html">courses page</a>.</p>';
+        return;
+      }
+
+      document.getElementById('quiz-title').innerText = courseName;
+      const username = localStorage.getItem('username');
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/getQuiz?course=${encodeURIComponent(courseName)}`);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        
+        const quizData = await response.json();
+        if (!Array.isArray(quizData) || quizData.length === 0) {
+          throw new Error('No quiz questions available for this course.');
+        }
+
+        antiCheat.startQuiz(courseName);
+
+        const quizContent = document.getElementById('quiz-content');
+        let currentQuestion = 0;
+        
+        // Function to display a question
+        function displayQuestion(index) {
+          const question = quizData[index];
+          const optionsHTML = question.options.map((option, i) => `
+            <label class="option">
+              <input type="radio" name="question${index}" value="${option}">
+              <span>${option}</span>
+            </label>
+          `).join('');
+
+          quizContent.innerHTML = `
+            <div class="question">
+              <p><strong>Question ${index + 1} of ${quizData.length}:</strong> ${question.question}</p>
+              <div class="options-container">
+                ${optionsHTML}
+              </div>
+            </div>
+          `;
+          
+          // Update button states
+          document.getElementById('prev-btn').disabled = index === 0;
+          document.getElementById('next-btn').disabled = index === quizData.length - 1;
+          
+          // Focus on the input field
+          const input = document.getElementById(`answer${index}`);
+          if (input) {
+            input.focus();
+          }
+        }
+
+        // Display first question
+        displayQuestion(currentQuestion);
+
+        // Previous button handler
+        document.getElementById('prev-btn').addEventListener('click', () => {
+          if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion(currentQuestion);
+          }
+        });
+
+        // Next button handler
+        document.getElementById('next-btn').addEventListener('click', () => {
+          if (currentQuestion < quizData.length - 1) {
+            currentQuestion++;
+            displayQuestion(currentQuestion);
+          }
+        });
+
+        // Start timer
+        const quizDuration = 60 * 10; // 10 minutes
+        const timerDisplay = document.getElementById('time');
+        let timerInterval;
+
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            
+            timerInterval = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    alert("Time's up! Your quiz will be submitted automatically.");
+                    document.getElementById('submit-btn').click();
+                }
+            }, 1000);
+        }
+
+        startTimer(quizDuration, timerDisplay);
+
+        // Submit button handler
+        document.getElementById('submit-btn').addEventListener('click', async () => {
+          clearInterval(timerInterval); // Stop the timer
+          antiCheat.endQuiz(); // Stop anti-cheat monitoring
+          
+          let correctCount = 0;
+          let unansweredCount = 0;
+          
+          quizData.forEach((question, index) => {
+              const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+              if (!selectedOption) {
+                  unansweredCount++;
+              } else if (selectedOption.value === question.correct_answer) {
+                  correctCount++;
+              }
+          });
+          
+          const total = quizData.length;
+          const score = total > 0 ? (correctCount / total) * 100 : 0;
+          
+          // --- Submit score to backend ---
+          try {
+            const submission = {
+              username: username,
+              quiz_name: courseName,
+              score: score,
+            };
+            const submitResponse = await fetch('http://127.0.0.1:5000/submitQuiz', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(submission),
+            });
+            if (!submitResponse.ok) throw new Error('Failed to submit score.');
+          } catch (error) {
+            console.error('Error submitting quiz score:', error);
+            // Non-critical, so we just log it and proceed
+          }
+          
+          // --- Show results ---
+          quizContent.innerHTML = `
+            <div class="question">
+              <h2>Quiz Results</h2>
+              <p>You scored ${score.toFixed(1)}% (${correctCount} out of ${total} correct)</p>
+              ${unansweredCount > 0 ? `<p>You left ${unansweredCount} question${unansweredCount > 1 ? 's' : ''} unanswered.</p>` : ''}
+              <button class="quiz-btn" onclick="window.location.href='courses.html'">Return to Courses</button>
+            </div>
+          `;
+          
+          // Hide navigation buttons
+          document.getElementById('quiz-controls').style.display = 'none';
+        });
+
+      } catch (error) {
+        console.error('Error loading quiz:', error);
+        document.getElementById('quiz-content').innerHTML = `
+          <div class="question">
+            <p>Failed to load quiz questions. Please try again later.</p>
+            <p>Error: ${error.message}</p>
+            <p><strong>Note:</strong> This page must be run on a web server.</p>
+            <button class="quiz-btn" onclick="window.location.reload()">Retry</button>
+          </div>
+        `;
+        document.getElementById('quiz-controls').style.display = 'none';
+      }
+    });
+  </script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
