@@ -1,0 +1,395 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #343a40;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 70px;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    color: #343a40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #007bff;
+    margin-left: 20px;
+}
+
+nav .logo i {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 15px;
+    margin-right: auto;
+    margin-left: 50px;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    color: #343a40;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: #007bff;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.hero {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    min-height: calc(100vh - 70px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.hero-section {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero .content {
+    max-width: 800px;
+}
+
+.hero h1 {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero p {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.hero .btn {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #007bff;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hero .btn:hover {
+    background-color: #f8f9fa;
+    color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hero .btn:active {
+    transform: translateY(0);
+}
+
+.hero-image {
+    margin-top: 30px;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.how-it-works, .benefits, .testimonials {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.how-it-works {
+    background-color: #ffffff;
+}
+
+.how-it-works h2, .benefits h2, .testimonials h2 {
+    font-size: 2.8em;
+    margin-bottom: 40px;
+    color: #343a40;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.feature {
+    width: 30%;
+    min-width: 280px;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.feature i {
+    font-size: 3.5em;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.feature h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #343a40;
+}
+
+.feature p {
+    font-size: 1.1em;
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+.benefits {
+    background-color: #e9ecef;
+}
+
+.benefits ul {
+    list-style: none;
+    padding: 0;
+    display: inline-block;
+    text-align: left;
+}
+
+.benefits li {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    position: relative;
+}
+
+.benefits li::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: #28a745;
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+.testimonials {
+    background-color: #ffffff;
+}
+
+.testimonial {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 5px solid #007bff;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.testimonial p {
+    font-size: 1.2em;
+    font-style: italic;
+    color: #5a6268;
+    line-height: 1.7;
+}
+
+.testimonial cite {
+    font-size: 1.1em;
+    color: #343a40;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+footer {
+    padding: 25px 20px;
+    text-align: center;
+    background-color: #343a40;
+    color: #f8f9fa;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.95em;
+}
+
+/* General page container for consistent layout */
+.page-container {
+  flex-grow: 1; /* Crucial for sticky footer */
+  padding: 20px; /* Default padding, can be overridden */
+  width: 100%;
+  box-sizing: border-box;
+  display: flex; /* To help center content like forms */
+  flex-direction: column; /* To stack elements if needed */
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically if it's the only direct child */
+}
+
+/* Responsive Design */
+@media (max-width: 992px) { /* Medium devices (tablets, less than 992px) */
+    nav ul {
+        font-size: medium;
+    }
+    .hero h1 {
+        font-size: 2.8em;
+    }
+    .hero p {
+        font-size: 1.1em;
+    }
+    .feature {
+        width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 50px; /* Adjust padding for smaller navbar */
+    }
+    nav {
+        padding: 10px 20px;
+    }
+    nav .logo {
+      margin-bottom: 8px; /* Reduced margin */
+      font-size: 1.3em; /* Slightly smaller logo text */
+    }
+    nav ul {
+        gap: 10px;
+    }
+    nav ul li a {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+    .hero {
+        min-height: calc(100vh - 110px); /* Adjust for potentially taller stacked navbar */
+    }
+    .hero h1 {
+        font-size: 2.5em;
+    }
+    .hero p {
+        font-size: 1.1em;
+    }
+    .hero .btn {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+    .feature {
+        width: 85%;
+        margin-bottom: 25px;
+    }
+    .how-it-works h2, .benefits h2, .testimonials h2 {
+        font-size: 2.2em;
+    }
+    .benefits ul {
+        width: 90%;
+    }
+    .testimonial {
+        width: 90%;
+    }
+}
+
+@media (max-width: 576px) {
+    nav {
+        padding: 8px 15px;
+    }
+    
+    nav .logo {
+        font-size: 1.1em;
+    }
+    
+    nav ul {
+        gap: 8px;
+    }
+    
+    nav ul li a {
+        padding: 5px 8px;
+        font-size: 0.85em;
+    }
+    
+    .hero h1 {
+        font-size: 2em;
+    }
+    
+    .hero p {
+        font-size: 1em;
+    }
+    
+    .hero .btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    .feature i {
+        font-size: 3em;
+    }
+    .feature h3 {
+        font-size: 1.5em;
+    }
+    .feature p {
+        font-size: 1em;
+    }
+    .how-it-works, .benefits, .testimonials {
+        padding: 40px 15px;
+    }
+}
